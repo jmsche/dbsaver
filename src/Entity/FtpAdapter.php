@@ -35,7 +35,7 @@ class FtpAdapter extends AdapterConfig
 
     public function __toString(): string
     {
-        return sprintf('FTP (%s)', $this->getName());
+        return \sprintf('FTP (%s)', $this->getName());
     }
 
     public function getFtpHost(): ?string

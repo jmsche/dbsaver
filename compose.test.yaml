@@ -1,12 +1,6 @@
-version: '3'
-
 services:
-    mailer:
-        image: schickling/mailcatcher
-        ports: [1025, 1080]
-
     mariadb:
-        image: mariadb:10.6
+        image: mariadb:10.11
         ports:
             - '3307:3306'
         environment:
@@ -15,9 +9,6 @@ services:
         volumes:
             - ./src/Faker/Provider/fixture.sql:/docker-entrypoint-initdb.d/fixture.sql
             - db_data:/var/lib/mysql
-        labels:
-            com.symfony.server.service-prefix: 'DATABASE'
-
     minio:
         image: minio/minio
         environment:
@@ -29,18 +20,27 @@ services:
         ports:
             - 9004:9004
             - 9001:9001
+        healthcheck:
+            test: ["CMD", "curl", "-fsS", "http://localhost:9004/minio/health/ready"]
+            interval: 2s
+            timeout: 2s
+            retries: 60
+            start_period: 5s
 
     createbuckets:
         image: minio/mc
         depends_on:
-            - minio
+            minio:
+                condition: service_healthy
         entrypoint: >
-            /bin/sh -c "
+            /bin/sh -eux -c '
             /usr/bin/mc alias set myminio http://minio:9004 minio minio123;
-            /usr/bin/mc mb myminio/somebucketname;
-            /usr/bin/mc policy set public myminio/somebucketname;
-            exit 0;
-            "
+            until /usr/bin/mc ls myminio >/dev/null 2>&1; do
+              echo "Waiting for MinIO..."; sleep 1;
+            done;
+            /usr/bin/mc mb -p myminio/somebucketname || true;
+            /usr/bin/mc anonymous set public myminio/somebucketname || true;
+            '
     ftpserver:
         environment:
             - FTP_PASS=dbsaver

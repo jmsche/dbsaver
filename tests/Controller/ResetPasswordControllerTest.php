@@ -36,7 +36,7 @@ final class ResetPasswordControllerTest extends AbstractControllerTest
         $user = $this->userRepository->find(self::USER_ROLE_ADMIN);
         $resetToken = $this->resetPasswordHelper->generateResetToken($user);
 
-        self::$client->request('GET', sprintf('/reset-password/reset/%s', $resetToken->getToken()));
+        self::$client->request('GET', \sprintf('/reset-password/reset/%s', $resetToken->getToken()));
         self::assertResponseRedirects('/reset-password/reset');
         self::$client->followRedirect();
 

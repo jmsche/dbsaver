@@ -1,8 +1,15 @@
-version: '3'
-
 services:
+    mailer:
+        image: axllent/mailpit
+        ports:
+            - "1025"
+            - "8025"
+        environment:
+            MP_SMTP_AUTH_ACCEPT_ANY: 1
+            MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
     mariadb:
-        image: mariadb:10.6
+        image: mariadb:10.11
         ports:
             - '3307:3306'
         environment:
@@ -11,6 +18,9 @@ services:
         volumes:
             - ./src/Faker/Provider/fixture.sql:/docker-entrypoint-initdb.d/fixture.sql
             - db_data:/var/lib/mysql
+        labels:
+            com.symfony.server.service-prefix: 'DATABASE'
+
     minio:
         image: minio/minio
         environment:

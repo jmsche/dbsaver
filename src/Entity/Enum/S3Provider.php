@@ -15,7 +15,7 @@ enum S3Provider: string
         return match ($this) {
             self::AMAZON_AWS => 'enum.s3_provider.amazon_aws',
             self::SCALEWAY => 'enum.s3_provider.scaleway',
-            self::OTHER => 'enum.s3_provider.other'
+            self::OTHER => 'enum.s3_provider.other',
         };
     }
 }

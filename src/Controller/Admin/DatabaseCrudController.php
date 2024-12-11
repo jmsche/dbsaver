@@ -103,7 +103,7 @@ final class DatabaseCrudController extends AbstractCrudController
 
         $this->updateEntity($this->em, $database, $status);
 
-        return $this->redirect($context->getReferrer() ?? $this->generateUrl('admin'));
+        return $this->redirect($this->container->get(AdminUrlGenerator::class)->setAction(Action::INDEX)->generateUrl());
     }
 
     public function showDatabaseBackupsAction(AdminContext $context): Response
@@ -208,7 +208,7 @@ final class DatabaseCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield FormField::addPanel('database.panel.main_info', 'fas fa-info-circle');
+        yield FormField::addFieldset('database.panel.main_info', 'fas fa-info-circle');
         yield TextField::new('name', 'database.field.name')
             ->hideOnIndex()
             ->setColumns(4);
@@ -245,7 +245,7 @@ final class DatabaseCrudController extends AbstractCrudController
             ->formatValue(function (BackupTask $backupTask) {
                 $plural = $backupTask->getPeriodicityNumber() > 1;
 
-                return sprintf(
+                return \sprintf(
                     '%s %s %s',
                     $this->translator->trans($backupTask->getDescriptionPrefixTranslation()),
                     $plural ? $backupTask->getPeriodicityNumber() : null,
@@ -275,7 +275,7 @@ final class DatabaseCrudController extends AbstractCrudController
             ->hideOnForm();
 
         if (Crud::PAGE_INDEX !== $pageName) {
-            yield FormField::addPanel('database.panel.backup_options', 'fas fa-gear');
+            yield FormField::addFieldset('database.panel.backup_options', 'fas fa-gear');
 
             yield BooleanField::new('options.resetAutoIncrement', 'database.field.options.reset_auto_increment')
                 ->renderAsSwitch(false)
@@ -302,7 +302,7 @@ final class DatabaseCrudController extends AbstractCrudController
         }
 
         if (Crud::PAGE_INDEX !== $pageName) {
-            yield FormField::addPanel('database.panel.task_configuration', 'fa-solid fa-calendar');
+            yield FormField::addFieldset('database.panel.task_configuration', 'fa-solid fa-calendar');
             yield IntegerField::new('backupTask.periodicityNumber', 'database.field.backup_task.periodicity_number')
                 ->setFormTypeOption('attr', ['min' => 1, 'step' => 1])
                 ->setColumns(4);
