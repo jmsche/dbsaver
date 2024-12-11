@@ -21,7 +21,7 @@ class DataProvider
 {
     public function __construct(
         private readonly Encryptor $encryptor,
-        private readonly EntityManagerInterface $manager
+        private readonly EntityManagerInterface $manager,
     ) {
     }
 

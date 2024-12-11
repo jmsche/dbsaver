@@ -74,13 +74,13 @@ final class MakeUserCommand extends Command
             $this->manager->persist($user);
             $this->manager->flush();
         } catch (UniqueConstraintViolationException) {
-            $io->error(sprintf('Email address %s is already used.', $email));
+            $io->error(\sprintf('Email address %s is already used.', $email));
 
             return Command::FAILURE;
         }
 
         $io->success(
-            sprintf('User %s has been successfully created! You can now log in.', $email)
+            \sprintf('User %s has been successfully created! You can now log in.', $email)
         );
 
         return Command::SUCCESS;

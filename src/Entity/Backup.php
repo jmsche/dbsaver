@@ -64,7 +64,7 @@ class Backup implements \Stringable
         return $this;
     }
 
-    public function setBackupFile(File $backupFile = null): self
+    public function setBackupFile(?File $backupFile = null): self
     {
         $this->backupFile = $backupFile;
 

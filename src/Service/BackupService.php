@@ -46,7 +46,7 @@ class BackupService
             $mysqldump = $this->defineMysqlDumpObject($database);
 
             // Define temp path
-            $filepath = sprintf(
+            $filepath = \sprintf(
                 '%s/backup_%s_hash_%s.sql',
                 $this->projectDir,
                 (new \DateTime())->format('d_m_y'),
@@ -63,7 +63,7 @@ class BackupService
             $uploadedFile = new UploadedFile(
                 $filepath,
                 $fileInfo['basename'],
-                sprintf('application/%s', $fileInfo['extension']),
+                \sprintf('application/%s', $fileInfo['extension']),
                 null,
                 true
             );
@@ -147,7 +147,7 @@ class BackupService
                 continue;
             }
 
-            $query = $query . $line;
+            $query .= $line;
             if (';' === $endWith) {
                 $conn->executeStatement($query);
                 $query = '';

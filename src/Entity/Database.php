@@ -251,14 +251,14 @@ class Database implements \Stringable
     public function getDsn(): string
     {
         if (null === $this->port) {
-            return sprintf(
+            return \sprintf(
                 'mysql:host=%s;dbname=%s',
                 $this->host,
                 $this->name,
             );
         }
 
-        return sprintf(
+        return \sprintf(
             'mysql:host=%s:%s;dbname=%s',
             $this->host,
             $this->port,
@@ -269,7 +269,7 @@ class Database implements \Stringable
     public function getDisplayDsn(): string
     {
         if (null === $this->port) {
-            return sprintf(
+            return \sprintf(
                 '%s@%s/%s',
                 $this->user,
                 $this->host,
@@ -277,7 +277,7 @@ class Database implements \Stringable
             );
         }
 
-        return sprintf(
+        return \sprintf(
             '%s@%s:%s/%s',
             $this->user,
             $this->host,
