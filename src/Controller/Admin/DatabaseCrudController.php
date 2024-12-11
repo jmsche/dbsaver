@@ -208,7 +208,7 @@ final class DatabaseCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield FormField::addPanel('database.panel.main_info', 'fas fa-info-circle');
+        yield FormField::addFieldset('database.panel.main_info', 'fas fa-info-circle');
         yield TextField::new('name', 'database.field.name')
             ->hideOnIndex()
             ->setColumns(4);
@@ -275,7 +275,7 @@ final class DatabaseCrudController extends AbstractCrudController
             ->hideOnForm();
 
         if (Crud::PAGE_INDEX !== $pageName) {
-            yield FormField::addPanel('database.panel.backup_options', 'fas fa-gear');
+            yield FormField::addFieldset('database.panel.backup_options', 'fas fa-gear');
 
             yield BooleanField::new('options.resetAutoIncrement', 'database.field.options.reset_auto_increment')
                 ->renderAsSwitch(false)
@@ -302,7 +302,7 @@ final class DatabaseCrudController extends AbstractCrudController
         }
 
         if (Crud::PAGE_INDEX !== $pageName) {
-            yield FormField::addPanel('database.panel.task_configuration', 'fa-solid fa-calendar');
+            yield FormField::addFieldset('database.panel.task_configuration', 'fa-solid fa-calendar');
             yield IntegerField::new('backupTask.periodicityNumber', 'database.field.backup_task.periodicity_number')
                 ->setFormTypeOption('attr', ['min' => 1, 'step' => 1])
                 ->setColumns(4);
